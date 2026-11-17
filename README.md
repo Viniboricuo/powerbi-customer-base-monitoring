@@ -1,54 +1,45 @@
-# 📊 VA Dashboard — Monitoramento de Base de Clientes
+# Monitoramento de Base de Clientes · Power BI
 
-> Dashboard desenvolvido em **Power BI** para acompanhamento diário da base de clientes, com foco em variações de ativação, desempenho por grupo e ranking por empresa.
+Dashboard para acompanhamento diário da base ativa por categoria de plano, grupo e empresa.
+**Nomes de grupos e empresas anonimizados.**
 
----
+![Visão do dia](VisaoDeCarteira.png)
 
-## 🎯 Objetivo
+## Problema de negócio
+Times de operação e gestão precisavam identificar rapidamente oscilações na base ativa (quedas por empresa e evolução por categoria de plano) sem consolidar planilhas manualmente.
 
-Centralizar indicadores operacionais em uma única tela, permitindo que times de operações e gestão identifiquem rapidamente oscilações na base ativa, quedas por empresa e evolução mês a mês por categoria de plano.
-
----
-
-## 📌 Funcionalidades
-
+## Solução
 | Recurso | Descrição |
 |---|---|
-| 📦 **KPIs com variação** | Δ Dia e Δ Mês por categoria: Básico, Destaque, Plus, Essencial e Geral |
-| 📋 **Tabela de Desempenho** | Ranking por grupo com indicadores visuais de alta e queda |
-| 🏆 **Rankings automáticos** | Top Maiores Aumentos e Maiores Quedas por empresa |
-| 🍩 **Distribuição por Categoria** | Gráfico donut com % da base por plano |
-| 🔎 **Filtros interativos** | Região, Grupo, Empresa e Categoria com botão Limpar Filtros |
-| 🗂️ **Navegação entre páginas** | Visão do Dia · Outros Dias · Mês a Mês |
+| KPIs com variação | Δ Dia e Δ Mês por categoria de plano e no total |
+| Desempenho por grupo | Ranking com indicadores visuais de alta e queda |
+| Rankings automáticos | Maiores aumentos e maiores quedas por empresa |
+| Distribuição | Participação de cada categoria na base |
+| Filtros | Região, Grupo, Empresa e Categoria, com botão para limpar |
+| Navegação | Visão do Dia · Outros Dias · Mês a Mês (bookmarks) |
 
----
+## Arquitetura
+```mermaid
+flowchart LR
+  A[Fontes: Excel/CSV] --> B[Power Query: ETL e limpeza]
+  B --> C[Star Schema: fato de base diária + dimensões]
+  C --> D[Medidas DAX: deltas, rankings, ISINSCOPE]
+  D --> E[Relatório: 3 páginas]
+```
 
-## 🛠️ Tecnologias e Técnicas
+## Destaques técnicos
+- Variação diária e mensal com medidas DAX de time intelligence
+- Rankings dinâmicos com `TOPN` + `ADDCOLUMNS`
+- `ISINSCOPE` para adaptar os cálculos ao nível de drill
+- Star Schema separando fato e dimensões, o que reduziu o modelo e acelerou a atualização
 
-- **Power BI Desktop** — desenvolvimento do relatório
-- **DAX** — medidas de variação delta, rankings com `TOPN + ADDCOLUMNS`, detecção de nível de drill com `ISINSCOPE`
-- **Power Query (M)** — ETL, limpeza e transformação dos dados
-- **Modelagem Star Schema** — tabelas fato e dimensão separadas para performance otimizada
+## Decisões técnicas e trade-offs
+- **Star Schema em vez de tabela única:** modelo menor e DAX mais simples, com um passo a mais de ETL.
+- **Bookmarks em vez de páginas duplicadas:** menos manutenção, mas exige cuidado ao editar os visuais.
 
----
+## Próximos passos
+- Publicar uma versão do .pbix com gerador de dados fictícios
+- Documentar as medidas DAX principais em `/docs`
 
-## 📈 Resultados e Aprendizados
-
-- Implementação de **medidas DAX avançadas** para variação diária e mensal
-- Uso de **rankings dinâmicos** com `TOPN` para Maiores Aumentos e Quedas
-- Design de **navegação por páginas** com botões e marcadores (bookmarks)
-- Redução do tamanho do modelo via **Star Schema**, com ganho de performance
-
----
-
-## 👤 Autor
-
-**Vinicius Ribeiro Abel**
-- 💼 Analista de BI
-- 🎓 Ciência da Computação — Universidade Anhembi Morumbi
-- 🐙 [GitHub](https://github.com/Viniboricuo)
-- 💼 [LinkedIn](https://www.linkedin.com/in/viniciusribeiroabel/)
-
----
-
-*Desenvolvido por Vinicius Ribeiro Abel*
+## Aviso de dados
+Este repositório contém apenas a visualização do relatório. Grupos e empresas são anonimizados; nenhum dado de cliente identificável foi publicado.
