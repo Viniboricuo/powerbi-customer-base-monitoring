@@ -1,7 +1,7 @@
 # Monitoramento de Base de Clientes · Power BI
 
 Dashboard para acompanhamento diário da base ativa por categoria de plano, grupo e empresa.
-**Nomes de grupos e empresas anonimizados.**
+**Dados fictícios: nomes e números não correspondem a nenhuma empresa real.**
 
 ![Visão do dia](VisaoDeCarteira.png)
 
@@ -42,4 +42,4 @@ flowchart LR
 - Documentar as medidas DAX principais em `/docs`
 
 ## Aviso de dados
-Este repositório contém apenas a visualização do relatório. Grupos e empresas são anonimizados; nenhum dado de cliente identificável foi publicado.
+Este repositório contém apenas a visualização do relatório. Todos os números são fictícios e os nomes de grupos e empresas são genéricos; nenhum dado real foi publicado.
